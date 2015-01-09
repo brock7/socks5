@@ -13,6 +13,7 @@
 #include <winsock2.h>
 #include <windows.h>
 #pragma comment(lib,"ws2_32.lib")
+#pragma comment( linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"" )
 typedef void* (* ThreadProc)(void *);
 typedef HANDLE ThreadDesc;
 typedef int socklen_t;
