@@ -199,8 +199,8 @@ typedef struct
 }Socks5Para;
 // End Of Structure
 static CRITICAL_SECTION cs;
-void TCPTransfer(SOCKET* CSsocket);
-void UDPTransfer(Socks5Para *sPara);
+void WINAPI TCPTransfer(SOCKET* CSsocket);
+void WINAPI UDPTransfer(Socks5Para *sPara);
 BOOL ConnectToRemoteHost(SOCKET *ServerSocket,char *HostName,const WORD RemotePort);
 /////////////////////////////////////////////////////
 //---------------------------------------------------------------------------
@@ -745,7 +745,7 @@ int UDPSend(SOCKET s, char *buff, int nBufSize, struct sockaddr_in *to,int tolen
 	}
 	return idx;
 }
-void UDPTransfer(Socks5Para *sPara)////////////////!!!!!!!!!!!!!!!!
+void WINAPI UDPTransfer(Socks5Para *sPara)////////////////!!!!!!!!!!!!!!!!
 {
 	struct sockaddr_in SenderAddr;
 	socklen_t SenderAddrSize=sizeof(SenderAddr),DataLength=0,result;
@@ -845,7 +845,7 @@ void UDPTransfer(Socks5Para *sPara)////////////////!!!!!!!!!!!!!!!!
 	closesocket(sPara->Local.socks);
 	closesocket(sPara->Client.socks);
 }
-void TCPTransfer(SOCKET* CSsocket)
+void WINAPI TCPTransfer(SOCKET* CSsocket)
 {
 	SOCKET ClientSocket = CSsocket[0];
 	SOCKET ServerSocket = CSsocket[1];
