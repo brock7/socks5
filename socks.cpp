@@ -9,12 +9,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#ifdef _WIN32_WINNT
+#ifdef _MSC_VER
 #include <winsock2.h>
 #include <windows.h>
 #pragma comment(lib,"ws2_32.lib")
 typedef void* (* ThreadProc)(void *);
 typedef HANDLE ThreadDesc;
+typedef int socklen_t;
 ThreadDesc SpawnThread(ThreadProc thread_proc , void* p )
 {
 	DWORD dwThreadID;
@@ -56,7 +57,7 @@ typedef void* LPVOID;
 #include <pthread.h>
 #ifndef PTHREAD_MUTEX_RECURSIVE_NP
 #define PTHREAD_MUTEX_RECURSIVE_NP PTHREAD_MUTEX_RECURSIVE
-#endif
+#endif // #ifdef _MSC_VER
 
 typedef pthread_mutex_t CRITICAL_SECTION;
 void InitializeCriticalSection(CRITICAL_SECTION* cs)
