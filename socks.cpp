@@ -656,12 +656,6 @@ exit:
 }
 BOOL StartProxy()
 {
-#ifdef _WIN32_WINNT	
-	WSADATA WSAData;
-	if(WSAStartup(MAKEWORD(2,2), &WSAData))
-		return false;
-#endif
-
 	SOCKET ProxyServer= socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if(ProxyServer == SOCKET_ERROR)
 		return false;
@@ -714,7 +708,14 @@ int main(int argc, char* argv[])
 	}
 	printf("SOCKS v4 && v5 && Http Proxy V1.0 By LZX.\r\nUsage:\n%s ProxyPort (Default port 1080)\n%s ProxyPort Username Password\n",argv[0],argv[0]);
 	InitializeCriticalSection(&cs);
+	
+#ifdef _WIN32_WINNT	
+	WSADATA WSAData;
+	if(WSAStartup(MAKEWORD(2,2), &WSAData))
+		return -1;
+#endif	
 	StartProxy();
+	
 #ifdef _WIN32_WINNT	
 	WSACleanup();
 #endif	
