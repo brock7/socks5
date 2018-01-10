@@ -1,10 +1,3 @@
-// E-mail: LZX@qq.com
-// Version: V1.0 (Multithreads Mode)
-// Purpose: A Proxy works on one port and supports SOCKS v4 && v5 && Http protocol.
-//          The socks proxy request has not supported BIND method yet.
-//          The Http proxy supports three methods:GET(HEAD) POST CONNECT.
-// Test PlatForm: WinXP SP2
-// Compiled On: VC++ 6.0
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -326,7 +319,7 @@ int Authentication(SOCKET* CSsocket, char *ReceiveBuf,int DataLen)
 	////printf("%d,%d,%d,%d,%d\n",sq->Ver,sq->nMethods,sq->Methods[0],sq->Methods[1],sq->Methods[2]);
 	if(sq->Ver!=5)
 		return sq->Ver;
-	if((sq->Methods[0]==0)||(sq->Methods[0]==2))//00£¬ÎŞĞèÈÏÖ¤£»01£¬GSSAPI£»02£¬ĞèÒªÓÃ»§ÃûºÍPASSWORD
+	if((sq->Methods[0]==0)||(sq->Methods[0]==2))//00ï¼Œæ— éœ€è®¤è¯ï¼›01ï¼ŒGSSAPIï¼›02ï¼Œéœ€è¦ç”¨æˆ·åå’ŒPASSWORD
 	{
 		if(strlen(Username)==0)
 			Method[1]=0x00;
@@ -336,7 +329,7 @@ int Authentication(SOCKET* CSsocket, char *ReceiveBuf,int DataLen)
 			return 0;
 	}else
 		return 0;
-	if(Method[1]==0x02)//00£¬ÎŞĞèÈÏÖ¤£»01£¬GSSAPI£»02£¬ĞèÒªÓÃ»§ÃûºÍPASSWORD
+	if(Method[1]==0x02)//00ï¼Œæ— éœ€è®¤è¯ï¼›01ï¼ŒGSSAPIï¼›02ï¼Œéœ€è¦ç”¨æˆ·åå’ŒPASSWORD
 	{
 		char USER[256];
 		char PASS[256];
@@ -417,7 +410,7 @@ int GetAddressAndPort(char *ReceiveBuf, int DataLen, int ATYP, char *HostName, W
 		memcpy(HostName, inet_ntoa(in.sin_addr),strlen(inet_ntoa(in.sin_addr)));
 		return 1;
 	}
-	//ATYP=0x01´ú±íIP V4µØÖ· 0x03´ú±íÓòÃû;
+	//ATYP=0x01ä»£è¡¨IP V4åœ°å€ 0x03ä»£è¡¨åŸŸå;
 	if((Socks5Request->Ver==5)&&(ATYP==1))
 	{
 		IPandPort *IPP=(IPandPort *)&Socks5Request->IP_LEN;
@@ -500,7 +493,7 @@ int TalkWithClient(SOCKET *CSsocket, char *ReceiveBuf, int DataLen, char *HostNa
 		//printf("Invalid Socks 5 Request\n");
 		return 0;
 	}
-	//Get IP Type //0x01==IP V4µØÖ· 0x03´ú±íÓòÃû;0x04´ú±íIP V6µØÖ·;not Support
+	//Get IP Type //0x01==IP V4åœ°å€ 0x03ä»£è¡¨åŸŸå;0x04ä»£è¡¨IP V6åœ°å€;not Support
 	if((Socks5Request->ATYP==1)||(Socks5Request->ATYP==3))
 	{
 		if(!GetAddressAndPort(ReceiveBuf, DataLen, Socks5Request->ATYP, HostName, RemotePort))
@@ -795,7 +788,7 @@ void WINAPI UDPTransfer(Socks5Para *sPara)////////////////!!!!!!!!!!!!!!!!
 			}//SenderAddr.sin_addr.s_addr==sPara->Client._IPandPort.dwIP&&
 			if(SenderAddr.sin_port==sPara->Client._IPandPort.wPort)//Data come from client
 			{
-				//////ÕâÀïÒªÏÈĞŞ¸ÄudpÊı¾İ±¨Í·
+				//////è¿™é‡Œè¦å…ˆä¿®æ”¹udpæ•°æ®æŠ¥å¤´
 				WORD RemotePort = 0;
 				char HostName[MAX_HOSTNAME];
 				memset(HostName,0,MAX_HOSTNAME);
